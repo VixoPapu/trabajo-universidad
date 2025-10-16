@@ -3,7 +3,7 @@ from models.empleado import Empleado
 def mostrar_menu(empleado: Empleado):
     while True:
         print("\n" + "="*40)
-        print(f"Bienvenido {empleado.nombre_completo()} (cargo: {empleado.cargo})")
+        print(f"Bienvenido {empleado.nombre_completo()} (cargo: {empleado.__cargo})")
         print("1) Gestión Clientes")
         print("2) Gestión Vehículos")
         print("3) Gestión Empleados")
