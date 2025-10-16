@@ -8,7 +8,7 @@ class Empleado:
         self.__apellido = apellido
 
     def nombre_completo(self):
-        return f"{self.__nombre} {self.__apellido}"
+        return f"{self.__nombre} {self.__apellido} {self.__cargo}"
 
     def __str__(self):
         return f"{self.__nombre} {self.__apellido} - {self.__cargo}"
