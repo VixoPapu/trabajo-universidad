@@ -7,27 +7,24 @@ class Vehiculo:
         self.__precio = precio
         self.__disponible = disponible
         self.__piezas = piezas
-        self.__lista_vehiculo = lista_vehiculo
-        
+        self.__listaVehiculo = lista_vehiculo
 
-    def get_patente(self):
+    def getPatente(self):
         return self.__patente
-    def get_marca(self):
+    def getMarca(self):
         return self.__marca
-    def get_modelo(self):
+    def getModelo(self):
         return self.__modelo
-    def get_anio(self):
+    def getAnio(self):
         return self.__anio
-    def get_precio(self):
+    def getPrecio(self):
         return self.__precio
-    def get_disponible(self):
+    def getDisponible(self):
         return self.__disponible
-    def get_piezas(self):
+    def getPiezas(self):
         return self.__piezas
-    def get_lista_vehiculo(self):
-        return self.__lista_vehiculo
-
-
+    def getListaVehiculo(self):
+        return self.__listaVehiculo
 
     def set_patente(self, patente):
         self.__patente = patente
@@ -44,8 +41,7 @@ class Vehiculo:
     def set_piezas(self, piezas):
         self.__piezas = piezas
     def set_lista_vehiculo(self, lista_vehiculo):
-        self.__lista_vehiculo = lista_vehiculo
-
+        self.__listaVehiculo = lista_vehiculo
 
     def mostrar_info(self):
         return f"Patente: {self.__patente}, Marca: {self.__marca}, Modelo: {self.__modelo}, Tipo: {self.__tipo}, Precio: {self.__precio}"

@@ -1,31 +1,4 @@
-from controlador.validations import login
-from dao.dao_empleado import registrarEmpleado
-from database.db_connection import Connex
-from models.empleado import Empleado
-from getpass import getpass
-
-def registrar():
-    db = Connex()
-    db.connect()
-
-    print("=== Registro de Nuevo Empleado ===")
-    run = input("RUN: ")
-    nombre = input("Nombre: ")
-    apellido = input("Apellido: ")
-    cargo = input("Cargo: ")
-    password = getpass("Contraseña: ")
-    password2 = getpass("Confirmar Contraseña: ")
-
-    if password != password2:
-        print("Las contraseñas no coinciden")
-        db.close()
-        return
-
-    empleado = Empleado(None, cargo, password, run, nombre, apellido)
-    mensaje = registrarEmpleado(db.connection, empleado)
-    print(mensaje)
-
-    db.close()
+from controlador.validations import login, registrar, mostrar_menu
 
 def menu_principal():
     while True:
@@ -39,7 +12,8 @@ def menu_principal():
         opc = input("Ingrese una opcion: ")
         if opc == "1":
             print("Iniciando Sesion...")
-            login()
+            empleado = login()
+            mostrar_menu(empleado)
         elif opc == "2":
             print("Registrando Usuario...")
             registrar()
