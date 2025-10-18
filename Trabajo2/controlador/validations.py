@@ -37,7 +37,6 @@ def login():
 
     print("-- Inicio de sesión --")
     run = input("RUN: ")
-    nombre = input("Nombre: ")
     password = getpass("Contraseña: ")
 
     empleado = validarLogin(db.connection, run, password)
@@ -69,11 +68,15 @@ def mostrar_menu(empleado: Empleado):
             print("Accediendo a Gestión Empleados...")
             db = Connex()
             db.connect()
+
             empleados = listarEmpleados(db.connection)
-            for emp in empleados:
-                print(emp)
+            if not empleados:
+                print("No hay empleados registrados.")
+            else:
+                print("Lista de empleados:")
+                for emp in empleados:
+                    print(f"{emp.getCodigo()} | Nombre: {emp.nombre_completo()} | Cargo: {emp.getCargo()} | Run: {emp.getRun()}")
             db.close()
-            
         elif opcion == "4":
             print("Cerrando sesión...")
             break

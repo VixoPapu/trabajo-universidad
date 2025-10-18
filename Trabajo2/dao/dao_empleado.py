@@ -41,7 +41,7 @@ def listarEmpleados(conn):
     try:
         cur = conn.cursor()
         sql = "SELECT codigo, cargo, password, run, nombre, apellido FROM empleados"
-        cur.excute(sql)
+        cur.execute(sql)
         filas = cur.fetchall()
         cur.close()
 
