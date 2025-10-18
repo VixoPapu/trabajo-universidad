@@ -37,5 +37,21 @@ def registrarEmpleado(conn, empleado):
         print("Error al registrar empleado:", e)
         return "Error al registrar empleado"
 
-def listarEmpleados():
-    pass
+def listarEmpleados(conn):
+    try:
+        cur = conn.cursor()
+        sql = "SELECT codigo, cargo, password, run, nombre, apellido FROM empleados"
+        cur.excute(sql)
+        filas = cur.fetchall()
+        cur.close()
+
+        empleados = []
+        for f in filas:
+            empleado = Empleado(f[0], f[1], f[2], f[3], f[4], f[5])
+            empleados.append(empleado)
+
+        return empleados
+    
+    except Exception as e:
+        print("Error al listar empleados:", e)
+        return []

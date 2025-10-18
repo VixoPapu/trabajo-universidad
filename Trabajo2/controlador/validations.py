@@ -1,7 +1,7 @@
 from models.empleado import Empleado
 from getpass import getpass
 from database.db_connection import Connex
-from dao.dao_empleado import registrarEmpleado, validarLogin
+from dao.dao_empleado import registrarEmpleado, validarLogin, listarEmpleados
 
 def registrar():
     db = Connex()
@@ -67,6 +67,13 @@ def mostrar_menu(empleado: Empleado):
             print("Accediendo a Gestión Vehículos...")
         elif opcion == "3":
             print("Accediendo a Gestión Empleados...")
+            db = Connex()
+            db.connect()
+            empleados = listarEmpleados(db.connection)
+            for emp in empleados:
+                print(emp)
+            db.close()
+            
         elif opcion == "4":
             print("Cerrando sesión...")
             break
