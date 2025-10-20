@@ -3,3 +3,4 @@ class Persona:
         self.__run = run
         self.__nombre = nombre
         self.__apellido = apellido
+

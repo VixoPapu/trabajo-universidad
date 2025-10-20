@@ -1,7 +1,7 @@
 from models.empleado import Empleado
 from getpass import getpass
 from database.db_connection import Connex
-from dao.dao_empleado import registrarEmpleado, validarLogin, listarEmpleados
+from controlador.dto_empleado import EmpDTO
 
 def registrar():
     db = Connex()
@@ -26,7 +26,7 @@ def registrar():
         return
 
     empleado = Empleado(None, cargo, password, run, nombre, apellido)
-    mensaje = registrarEmpleado(db.connection, empleado)
+    mensaje = EmpDTO().registrarEmpleado(db.connection, empleado)
     print(mensaje)
 
     db.close()
@@ -39,19 +39,45 @@ def login():
     run = input("RUN: ")
     password = getpass("Contraseña: ")
 
-    empleado = validarLogin(db.connection, run, password)
+    empleado = EmpDTO().validarLogin(db.connection, run, password)
 
     if empleado:
-        print(f"Bienvenido {empleado.nombre_completo()}!")
         return empleado
     else:
         print("Credenciales incorrectas. Verifique los datos.")
         return None
 
+def menu_principal():
+    while True:
+        print("-- Menu Principal --")
+        print("")
+        print("1. Iniciar Sesion")
+        print("2. Registrar")
+        print("3. Cerrar Programa")
+        print("")
+        
+        opc = input("Ingrese una opcion: ")
+        if opc == "1":
+            print("")
+            print("Iniciando Sesion...")
+            empleado = login()
+            mostrar_menu(empleado)
+        elif opc == "2":
+            print("")
+            print("Registrando Usuario...")
+            registrar()
+        elif opc == "3":
+            print("Saliendo...")
+            break
+        else:
+            print("Opcion no valida, intente de nuevo")
+
+
 def mostrar_menu(empleado: Empleado):
     while True:
         print("\n" + "="*40)
-        print(f"Bienvenido {empleado.nombre_completo()} (cargo: {empleado.getCargo().upper()})")
+        print(f"Bienvenido {empleado.nombre_completo()} Cargo: {empleado.getCargo().upper()}")
+        print("")
         print("1) Gestión Clientes")
         print("2) Gestión Vehículos")
         print("3) Gestión Empleados")
@@ -69,10 +95,11 @@ def mostrar_menu(empleado: Empleado):
             db = Connex()
             db.connect()
 
-            empleados = listarEmpleados(db.connection)
+            empleados = EmpDTO().listarEmpleados(db.connection)
             if not empleados:
                 print("No hay empleados registrados.")
             else:
+                print("")
                 print("Lista de empleados:")
                 for emp in empleados:
                     print(f"{emp.getCodigo()} | Nombre: {emp.nombre_completo()} | Cargo: {emp.getCargo()} | Run: {emp.getRun()}")

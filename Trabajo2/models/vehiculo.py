@@ -44,4 +44,4 @@ class Vehiculo:
         self.__listaVehiculo = lista_vehiculo
 
     def mostrar_info(self):
-        return f"Patente: {self.__patente}, Marca: {self.__marca}, Modelo: {self.__modelo}, Tipo: {self.__tipo}, Precio: {self.__precio}"
+        return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Tipo: {self.__tipo} | Precio: {self.__precio}"
