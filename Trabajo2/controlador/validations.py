@@ -25,8 +25,8 @@ def registrar():
         db.close()
         return
 
-    empleado = Empleado(None, cargo, password, run, nombre, apellido)
-    mensaje = EmpDTO().registrarEmpleado(db.connection, empleado)
+  
+    mensaje = EmpDTO().registrarEmpleado(cargo, password, run, nombre, apellido)
     print(mensaje)
 
     db.close()
@@ -38,14 +38,9 @@ def login():
     print("-- Inicio de sesión --")
     run = input("RUN: ")
     password = getpass("Contraseña: ")
-
-    empleado = EmpDTO().validarLogin(db.connection, run, password)
-
-    if empleado:
-        return empleado
-    else:
-        print("Credenciales incorrectas. Verifique los datos.")
-        return None
+    resultado = EmpDTO().validarLogin(run, password)
+    db.close()
+    return resultado
 
 def menu_principal():
     while True:
@@ -61,7 +56,8 @@ def menu_principal():
             print("")
             print("Iniciando Sesion...")
             empleado = login()
-            mostrar_menu(empleado)
+            if empleado:
+                mostrar_menu(empleado)
         elif opc == "2":
             print("")
             print("Registrando Usuario...")
@@ -71,7 +67,6 @@ def menu_principal():
             break
         else:
             print("Opcion no valida, intente de nuevo")
-
 
 def mostrar_menu(empleado: Empleado):
     while True:
@@ -92,10 +87,8 @@ def mostrar_menu(empleado: Empleado):
             print("Accediendo a Gestión Vehículos...")
         elif opcion == "3":
             print("Accediendo a Gestión Empleados...")
-            db = Connex()
-            db.connect()
-
-            empleados = EmpDTO().listarEmpleados(db.connection)
+            
+            empleados = EmpDTO().listarEmpleados()  # Sin pasar conexión
             if not empleados:
                 print("No hay empleados registrados.")
             else:
@@ -103,10 +96,8 @@ def mostrar_menu(empleado: Empleado):
                 print("Lista de empleados:")
                 for emp in empleados:
                     print(f"{emp.getCodigo()} | Nombre: {emp.nombre_completo()} | Cargo: {emp.getCargo()} | Run: {emp.getRun()}")
-            db.close()
         elif opcion == "4":
             print("Cerrando sesión...")
             break
         else:
             print("Opción inválida, intente nuevamente.")
-            

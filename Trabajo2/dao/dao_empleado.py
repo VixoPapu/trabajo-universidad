@@ -2,17 +2,17 @@ import bcrypt
 from models.empleado import Empleado
 
 class EmpDAO:
-    def validarLogin(conn, run, password):
+    def validarLogin(conn, empleado):
         try:
             cur = conn.cursor()
             sql = "SELECT codigo, run, nombre, apellido, cargo, password FROM empleados WHERE run = %s LIMIT 1"
-            cur.execute(sql, (run,))
+            cur.execute(sql, (empleado.getRun(),))
             row = cur.fetchone()
             cur.close()
 
             if row:
                 codigo, run, nombre, apellido, cargo, hashed_pw = row
-                if bcrypt.checkpw(password.encode(), hashed_pw.encode()):
+                if bcrypt.checkpw(empleado.getPassword().encode(), hashed_pw.encode()):
                     return Empleado(codigo, cargo, hashed_pw, run, nombre, apellido)
             return None
         except Exception as ex:

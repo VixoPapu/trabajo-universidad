@@ -4,3 +4,9 @@ class Persona:
         self.__nombre = nombre
         self.__apellido = apellido
 
+    def getRun(self):
+        return self.__run
+    def getNombre(self):
+        return self.__nombre
+    def getApellido(self):
+        return self.__apellido

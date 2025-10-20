@@ -6,15 +6,17 @@ class Connex:
 
     def connect(self):
         try:
-            self.connection = conn.connect(host = 'localhost',
-                             user = 'root',
-                             password = '',
-                             database = 'superbase'
+            self.connection = conn.connect(
+                host='localhost',
+                user='root',
+                password='',
+                database='superbase'
             )
             print("Conexion exitosa a mysql")
-
+            return self.connection
         except Exception as e:
             print("Error de conexion", e)
+            return None
 
     def close(self):
         if self.connection:
