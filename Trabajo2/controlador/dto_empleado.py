@@ -4,15 +4,15 @@ from models.empleado import Empleado
 
 class EmpDTO:
     def validarLogin(self, run, password):
-        empleado = Empleado(None, None, password, run, None, None)
+        empleado_login = Empleado.from_login(run, password)
         db = Connex()
         db.connect()
-        resultado = EmpDAO.validarLogin(db.connection, empleado)  
+        resultado = EmpDAO.validarLogin(db.connection, empleado_login)  
         db.close()
         return resultado
     
     def registrarEmpleado(self, cargo, password, run, nombre, apellido):
-        empleado = Empleado(None, cargo, password, run, nombre, apellido)
+        empleado = Empleado(cargo=cargo, password=password, run=run, nombre=nombre, apellido=apellido)
         db = Connex()
         db.connect()
         resultado = EmpDAO.registrarEmpleado(db.connection, empleado) 

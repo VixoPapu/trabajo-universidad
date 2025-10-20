@@ -88,6 +88,7 @@ CREATE TABLE `vehiculos` (
   `disponible` enum('SI','NO') DEFAULT 'SI'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+ALTER TABLE vehiculos MODIFY disponible BOOLEAN DEFAULT TRUE;
 --
 -- Índices para tablas volcadas
 --
