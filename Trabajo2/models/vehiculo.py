@@ -34,5 +34,5 @@ class Vehiculo:
     def set_disponible(self, disponible):
         self.__disponible = disponible
 
-    def mostrar_info(self):
+    def __str__(self):
         return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Año: {self.__anio} | Precio: ${self.__precio}"

@@ -1,4 +1,6 @@
 from models.empleado import Empleado
+from models.vehiculo import Vehiculo
+from models.cliente import Cliente
 from getpass import getpass
 from database.db_connection import Connex
 from controlador.dto_empleado import EmpDTO
@@ -85,7 +87,7 @@ def menu_gestion_vehiculos(vehiculo_dto):
 
         if opcion == "1":
             print("\n--- Modificar Vehículo ---")
-            patente = input("Patente: ")
+            patente = input("Patente de vehiculo a modificar: ")
             print("Modificando el auto con la patente", patente)
             marca = input("Marca: ")
             modelo = input("Modelo: ")
@@ -93,8 +95,6 @@ def menu_gestion_vehiculos(vehiculo_dto):
             precio = float(input("Precio: "))
             disponible = input("Disponible (si/no): ").lower() == "si"
 
-
-            from models.vehiculo import Vehiculo
             vehiculo = Vehiculo(patente, marca, modelo, anio, precio, disponible)
             resultado = vehiculo_dto.modificar(vehiculo)
             print(resultado)
@@ -113,7 +113,7 @@ def menu_gestion_vehiculos(vehiculo_dto):
             if vehiculos:
                 for vehiculo in vehiculos:
                     print("\n" + "="*40)
-                    print(vehiculo.mostrar_info())
+                    print(vehiculo)
 
             else:
                 print("No hay vehículos disponibles")
@@ -123,8 +123,77 @@ def menu_gestion_vehiculos(vehiculo_dto):
         else:
             print("Opción no válida")
 
+def menu_gestion_cliente(cliente_dto):
+    while True:
+        print("\n" + "="*40)
+        print("")
+        print("1) Insertar Cliente")
+        print("2) Editar Cliente")
+        print("3) Eliminar Cliente")
+        print("4) Mostrar Cliente")
+        print("5) Listar Clientes")
+        print("6) Volver al menú anterior")
+        print("\n" + "="*40)
+
+        opcion = input("Seleccione una opcion: ")
+
+        if opcion == "1":
+            print("\n--- Insertando Cliente ---")
+            run = input("Ingrese el rut: ")
+            nombre = input("Ingrese el nombre: ")
+            apellido = input("Ingrese el apellido: ")
+            telefono = input("Ingrese el telefono: ")
+            direccion = input("Ingrese el direccion: ")
+
+            cliente = Cliente(run, nombre, apellido, telefono, direccion)
+            resultado = cliente_dto.insertar(cliente)
+            print(resultado)
+
+        elif opcion == "2":
+            print("\n--- Editando Cliente ---")
+            run = input("Inserte el rut del cliente a editar: ")
+            print("Editando el cliente con el rut", run)
+            nombre = input("Ingrese el nombre: ")
+            apellido = input("Ingrese el apellido: ")
+            telefono = input("Ingrese el telefono: ")
+            direccion = input("Ingrese el direccion: ")
+
+            cliente = Cliente(run, nombre, apellido, telefono, direccion)
+            resultado = cliente_dto.editar(cliente)
+            print(cliente)
+
+        elif opcion == "3":
+            print("\n--- Eliminando Cliente ---")
+            run = input("Inserte el rut del cliente a eliminar")
+            confirmar = input(f"¿Está seguro de eliminar el cliente {run}? (s/n): ")
+            if confirmar.lower() == "s":
+                resultado = cliente_dto.eliminar(run)
+                print("Cliente editado con exito...")
+                print(resultado)
+
+        elif opcion == "4":
+            print("\n--- Mostrando Cliente ---")
+            run = input("Inserte el rut del cliente a mostrar: ")
+            resultado = cliente_dto.mostrar(run)
+            print(resultado)
+
+        elif opcion == "5":
+            print("\n--- Listando Clientes ---")
+            clientes = cliente_dto.listarClientes()
+            print("\n" + "="*40)
+            if clientes:
+                for cliente in clientes:
+                    print(cliente)
+
+        elif opcion == "6":
+            break
+
+        else:
+            print("Opción inválida, intente nuevamente.")
+
 def mostrar_menu(empleado: Empleado):
     vehiculo_dto = VehiculoDTO()
+    cliente_dto = ClienteDTO()
     while True:
         print("\n" + "="*40)
         print(f"Bienvenido {empleado.nombre_completo()} Cargo: {empleado.getCargo().upper()}")
@@ -139,7 +208,7 @@ def mostrar_menu(empleado: Empleado):
 
         if opcion == "1":
             print("Accediendo a Gestión Clientes...")
-
+            menu_gestion_cliente(cliente_dto)
 
         elif opcion == "2":
             print("Accediendo a Gestión Vehículos...")
@@ -155,7 +224,8 @@ def mostrar_menu(empleado: Empleado):
                 print("")
                 print("Lista de empleados:")
                 for emp in empleados:
-                    print(f"{emp.getCodigo()} | Nombre: {emp.nombre_completo()} | Cargo: {emp.getCargo()} | Run: {emp.getRun()}")
+                    print(emp)
+
         elif opcion == "4":
             print("Cerrando sesión...")
             break

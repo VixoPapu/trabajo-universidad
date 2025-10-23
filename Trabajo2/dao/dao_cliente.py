@@ -1,9 +1,9 @@
 from models.cliente import Cliente
 
 class ClienteDAO:
-    def insertar(self, cliente):
+    def insertar(conn, cliente):
         try:
-            cursor = self.conexion.cursor()
+            cursor = conn.cursor()
             sql = "INSERT INTO clientes (run, nombre, apellido, telefono, direccion) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (
                 cliente.getRun(),
@@ -12,15 +12,15 @@ class ClienteDAO:
                 cliente.getTelefono(),
                 cliente.getDireccion()
             ))
-            self.conexion.commit()
+            conn.commit()
             cursor.close()
             return "Cliente insertado correctamente"
         except Exception as e:
             return f"Error al insertar cliente: {str(e)}"
     
-    def editar(self, cliente):
+    def editar(conn, cliente):
         try:
-            cursor = self.conexion.cursor()
+            cursor = conn.cursor()
             sql = "UPDATE clientes SET nombre=%s, apellido=%s, telefono=%s, direccion=%s WHERE run=%s"
             cursor.execute(sql, (
                 cliente.getNombre(),
@@ -29,26 +29,26 @@ class ClienteDAO:
                 cliente.getDireccion(),
                 cliente.getRun()
             ))
-            self.conexion.commit()
+            conn.commit()
             cursor.close()
             return "Cliente actualizado correctamente"
         except Exception as e:
             return f"Error al actualizar cliente: {str(e)}"
     
-    def eliminar(self, run):
+    def eliminar(conn, run):
         try:
-            cursor = self.conexion.cursor()
+            cursor = conn.cursor()
             sql = "DELETE FROM clientes WHERE run = %s"
             cursor.execute(sql, (run,))
-            self.conexion.commit()
+            conn.commit()
             cursor.close()
             return "Cliente eliminado correctamente"
         except Exception as e:
             return f"Error al eliminar cliente: {str(e)}"
     
-    def mostrar(self, run):
+    def mostrar(conn, run):
         try:
-            cursor = self.conexion.cursor()
+            cursor = conn.cursor()
             sql = "SELECT * FROM clientes WHERE run = %s"
             cursor.execute(sql, (run,))
             resultado = cursor.fetchone()
@@ -59,17 +59,18 @@ class ClienteDAO:
                     run=resultado[0],
                     nombre=resultado[1],
                     apellido=resultado[2],
-                    telefono=resultado[3],
-                    direccion=resultado[4]
+                    direccion=resultado[3],
+                    telefono=resultado[4]
+                    
                 )
             return None
         except Exception as e:
             print(f"Error al buscar cliente: {str(e)}")
             return None
     
-    def listarClientes(self):
+    def listarClientes(conn):
         try:
-            cursor = self.conexion.cursor()
+            cursor = conn.cursor()
             sql = "SELECT * FROM clientes"
             cursor.execute(sql)
             resultados = cursor.fetchall()
@@ -81,8 +82,8 @@ class ClienteDAO:
                     run=resultado[0],
                     nombre=resultado[1],
                     apellido=resultado[2],
-                    telefono=resultado[3],
-                    direccion=resultado[4]
+                    direccion=resultado[3],
+                    telefono=resultado[4]
                 )
                 clientes.append(cliente)
             return clientes

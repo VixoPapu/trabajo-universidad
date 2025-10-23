@@ -20,7 +20,7 @@ class Empleado(Persona):
     def nombre_completo(self):
         return f"{self.getNombre()} {self.getApellido()}"
     def __str__(self):
-        return f"{self.nombre_completo()} | {self.__cargo} | Run: {self.getRun()}"
+        return f"{self.getCodigo()} | {self.nombre_completo()} | {self.__cargo} | Run: {self.getRun()}"
 
     @classmethod
     def from_login(cls, run, password):

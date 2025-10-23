@@ -13,4 +13,4 @@ class Cliente(Persona):
         return self.__direccion
     
     def __str__(self):
-        return f"Cliente: {self.getNombre()} {self.getApellido()} | Tel: {self.__telefono}"
+        return f"Rut: {self.getRun()} | Cliente: {self.getNombre()} {self.getApellido()} | Tel: {self.getTelefono()} | Direccion: {self.getDireccion()}"

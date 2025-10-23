@@ -1,26 +1,38 @@
 from dao.dao_cliente import ClienteDAO
-from models.cliente import Cliente
+from database.db_connection import Connex
 
 class ClienteDTO:
-    def __init__(self):
-        self.dao = ClienteDAO()
+    def insertar(self, cliente):
+        db = Connex()
+        db.connect()
+        resultado = ClienteDAO.insertar(db.connection, cliente)
+        db.close()
+        return resultado
     
-    def insertarCliente(self, run, nombre, apellido, telefono, direccion):
-        cliente = Cliente(run, nombre, apellido, telefono, direccion)
-        return self.dao.insertar(cliente)
+    def editar(self, cliente):
+        db = Connex()
+        db.connect()
+        resultado = ClienteDAO.editar(db.connection, cliente)
+        db.close()
+        return resultado
     
-    def editarCliente(self, run, nombre, apellido, telefono, direccion):
-        cliente = Cliente(run, nombre, apellido, telefono, direccion)
-        return self.dao.editar(cliente)
+    def eliminar(self, run):
+        db = Connex()
+        db.connect()
+        resultado = ClienteDAO.eliminar(db.connection, run)
+        db.close()
+        return resultado
     
-    def eliminarCliente(self, run):
-        return self.dao.eliminar(run)
-    
-    def mostrarCliente(self, run):
-        return self.dao.mostrar(run)
+    def mostrar(self, run):
+        db = Connex()
+        db.connect()
+        resultado = ClienteDAO.mostrar(db.connection, run)
+        db.close()
+        return resultado
     
     def listarClientes(self):
-        return self.dao.listar_clientes()
-    
-    def existeCliente(self, run):
-        return self.dao.mostrar(run) is not None
+        db = Connex()
+        db.connect()
+        resultado = ClienteDAO.listarClientes(db.connection)
+        db.close()
+        return resultado
