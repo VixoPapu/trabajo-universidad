@@ -222,7 +222,7 @@ def mostrar_menu(empleado: Empleado):
                 print("No hay empleados registrados.")
             else:
                 print("")
-                print("Lista de empleados:")
+                print("Lista de empleados: ")
                 for emp in empleados:
                     print(emp)
 
