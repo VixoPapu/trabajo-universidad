@@ -22,12 +22,12 @@ class VehiculoDAO:
             return f"Error al modificar vehículo: {str(e)}"
         
     @staticmethod
-    def eliminar(conn, patente):
-        """Elimina un vehículo por patente - Requirement: +eliminar(patente): string"""
+    def eliminar(conn, vehiculo):
+       #CAMBIO ACA
         try:
             cursor = conn.cursor()
             sql = "DELETE FROM vehiculos WHERE patente = %s"
-            cursor.execute(sql, (patente,))
+            cursor.execute(sql, (vehiculo.getPatente(),))
             conn.commit()
             cursor.close()
             return "Vehículo eliminado correctamente"

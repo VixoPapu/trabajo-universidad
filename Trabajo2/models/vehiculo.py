@@ -1,6 +1,6 @@
 class Vehiculo:
     
-    def __init__ (self, patente, marca, modelo, anio, precio, disponible):
+    def __init__ (self, patente, marca="", modelo="", anio=0, precio=0, disponible=True):
         self.__patente = patente
         self.__marca = marca
         self.__modelo = modelo
@@ -35,4 +35,4 @@ class Vehiculo:
         self.__disponible = disponible
 
     def __str__(self):
-        return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Año: {self.__anio} | Precio: ${self.__precio}"
+        return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Año: {self.__anio} | Precio: UF${self.__precio}"
