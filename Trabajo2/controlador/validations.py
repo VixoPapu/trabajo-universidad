@@ -146,8 +146,10 @@ def menu_gestion_cliente(cliente_dto):
             telefono = input("Ingrese el telefono: ")
             direccion = input("Ingrese el direccion: ")
 
-            cliente = Cliente(run, nombre, apellido, telefono, direccion)
-            resultado = cliente_dto.insertar(cliente)
+#Hice el cambio aqui llamando todo del dto_cliente
+
+            #cliente = Cliente(run, nombre, apellido, telefono, direccion) <---antes
+            resultado = ClienteDTO().insertar(run, nombre, apellido, telefono, direccion) #<----despues
             print(resultado)
 
         elif opcion == "2":
@@ -159,8 +161,8 @@ def menu_gestion_cliente(cliente_dto):
             telefono = input("Ingrese nuevo telefono: ")
             direccion = input("Ingrese nueva direccion: ")
 
-            cliente = Cliente(run, nombre, apellido, telefono, direccion)
-            resultado = cliente_dto.editar(cliente)
+            #cliente = Cliente(run, nombre, apellido, telefono, direccion)
+            resultado = ClienteDTO().editar(run, nombre, apellido, telefono, direccion)
             print(cliente)
 
         elif opcion == "3":
@@ -168,8 +170,8 @@ def menu_gestion_cliente(cliente_dto):
             run = input("Inserte el rut del cliente a eliminar")
             confirmar = input(f"¿Está seguro de eliminar el cliente {run}? (s/n): ")
             if confirmar.lower() == "s":
-                resultado = cliente_dto.eliminar(run)
-                print("Cliente editado con exito...")
+                resultado = ClienteDTO.eliminar(run)
+                print("Cliente elimiado con exito...")
                 print(resultado)
 
         elif opcion == "4":
@@ -203,8 +205,7 @@ def mostrar_menu(empleado: Empleado):
         print("1) Gestión Clientes")
         print("2) Gestión Vehículos")
         print("3) Gestión Empleados")
-        print("4) Gestión de Piezas")
-        print("5) Cerrar sesión")
+        print("4) Cerrar sesión")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opción: ")
@@ -229,11 +230,8 @@ def mostrar_menu(empleado: Empleado):
                 print("\n" + "="*40)
                 for emp in empleados:
                     print(emp)
-        # borrar piezas    
-        elif opcion == "4":
-            print("Accediendo a Gestión de Piezas...")
 
-        elif opcion == "5":
+        elif opcion == "4":
             print("Cerrando sesión...")
             break
         else:

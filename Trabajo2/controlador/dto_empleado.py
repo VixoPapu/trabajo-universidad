@@ -7,6 +7,7 @@ class EmpDTO:
         empleado_login = Empleado.from_login(run, password)
         db = Connex()
         db.connect()
+        
         resultado = EmpDAO.validarLogin(db.connection, empleado_login)  
         db.close()
         return resultado
@@ -25,3 +26,6 @@ class EmpDTO:
         resultado = EmpDAO.listarEmpleados(db.connection) 
         db.close()
         return resultado
+    
+
+    

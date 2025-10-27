@@ -13,5 +13,13 @@ class Persona:
     def getApellido(self):
         return self.__apellido
 
+
+
+    def set_Nombre(self, nombre):
+        self.__nombre = nombre
+
+    def set_Apellido(self, apellido):
+        self.__apellido = apellido
+
     def __str__(self):
         return f"{self.__nombre} {self.__apellido} | RUN: {self.__run})"

@@ -1,17 +1,21 @@
 from dao.dao_cliente import ClienteDAO
 from database.db_connection import Connex
-
+from models.cliente import Cliente
 class ClienteDTO:
-    def insertar(self, cliente):
+
+
+    def insertar(self, run, nombre, apellido, telefono, direccion):
         db = Connex()
         db.connect()
+        cliente = Cliente(run=run, nombre=nombre, apellido=apellido, telefono= telefono, direccion=direccion)
         resultado = ClienteDAO.insertar(db.connection, cliente)
         db.close()
         return resultado
     
-    def editar(self, cliente):
+    def editar(self, run, nombre, apellido, telefono, direccion):
         db = Connex()
         db.connect()
+        cliente = Cliente(run=run, nombre=nombre, apellido=apellido, telefono= telefono, direccion=direccion)
         resultado = ClienteDAO.editar(db.connection, cliente)
         db.close()
         return resultado
@@ -22,7 +26,9 @@ class ClienteDTO:
         resultado = ClienteDAO.eliminar(db.connection, run)
         db.close()
         return resultado
-    
+
+
+
     def mostrar(self, run):
         db = Connex()
         db.connect()

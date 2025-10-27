@@ -1,12 +1,12 @@
 from models.persona import Persona
 
 class Empleado(Persona):
-    def __init__(self, codigo=None, cargo=None, password=None, run=None, nombre=None, apellido=None, correoEmpleado=None):
+    def __init__(self, codigo=None, cargo=None, password=None, run=None, nombre=None, apellido=None):
         self.__codigo = codigo
         self.__cargo = cargo
         self.__password = password
         super().__init__(run, nombre, apellido)
-        self.__correoEmpleado = correoEmpleado
+
 
     def getCodigo(self):
         return self.__codigo
@@ -14,8 +14,15 @@ class Empleado(Persona):
         return self.__cargo
     def getPassword(self):
         return self.__password
-    def getCorreoEmpleado(self):
-        return self.__correoEmpleado
+
+    def set_codigo(self, codigo):
+        self.__codigo = codigo
+    
+    def set_cargo(self, cargo):
+        self.__cargo = cargo
+
+    def set_password(self, password):
+        self.__password = password
     
     def nombre_completo(self):
         return f"{self.getNombre()} {self.getApellido()}"
