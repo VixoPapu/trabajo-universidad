@@ -7,16 +7,15 @@ class EmpDTO:
         empleado_login = Empleado.from_login(run, password)
         db = Connex()
         db.connect()
-        
         resultado = EmpDAO.validarLogin(db.connection, empleado_login)  
         db.close()
         return resultado
     
     def registrarEmpleado(self, cargo, password, run, nombre, apellido):
-        empleado = Empleado(cargo=cargo, password=password, run=run, nombre=nombre, apellido=apellido)
+        reg_empleado = Empleado(cargo=cargo, password=password, run=run, nombre=nombre, apellido=apellido)
         db = Connex()
         db.connect()
-        resultado = EmpDAO.registrarEmpleado(db.connection, empleado) 
+        resultado = EmpDAO.registrarEmpleado(db.connection, reg_empleado) 
         db.close()
         return resultado
 
