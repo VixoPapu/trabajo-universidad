@@ -23,16 +23,16 @@ class ClienteDTO:
     def eliminar(self, run):
         db = Connex()
         db.connect()
-        resultado = ClienteDAO.eliminar(db.connection, run)
+        cliente = Cliente(run=run)
+        resultado = ClienteDAO.eliminar(db.connection, cliente)
         db.close()
         return resultado
-
-
 
     def mostrar(self, run):
         db = Connex()
         db.connect()
-        resultado = ClienteDAO.mostrar(db.connection, run)
+        cliente = Cliente(run=run)
+        resultado = ClienteDAO.mostrar(db.connection, cliente)
         db.close()
         return resultado
     

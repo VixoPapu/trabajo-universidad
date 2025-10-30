@@ -167,7 +167,7 @@ def menu_gestion_cliente(cliente_dto):
 
         elif opcion == "3":
             print("\n--- Eliminando Cliente ---")
-            run = input("Inserte el rut del cliente a eliminar")
+            run = input("Inserte el rut del cliente a eliminar: ")
             confirmar = input(f"¿Está seguro de eliminar el cliente {run}? (s/n): ")
             if confirmar.lower() == "s":
                 resultado = ClienteDTO().eliminar(run)
