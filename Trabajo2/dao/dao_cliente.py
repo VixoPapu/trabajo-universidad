@@ -35,22 +35,22 @@ class ClienteDAO:
         except Exception as e:
             return f"Error al actualizar cliente: {str(e)}"
     
-    def eliminar(conn, run):
+    def eliminar(conn, cliente: Cliente):
         try:
             cursor = conn.cursor()
             sql = "DELETE FROM clientes WHERE run = %s"
-            cursor.execute(sql, (run,))
+            cursor.execute(sql, (cliente.getRun(),))
             conn.commit()
             cursor.close()
             return "Cliente eliminado correctamente"
         except Exception as e:
             return f"Error al eliminar cliente: {str(e)}"
     
-    def mostrar(conn, run):
+    def mostrar(conn, cliente: Cliente):
         try:
             cursor = conn.cursor()
             sql = "SELECT * FROM clientes WHERE run = %s"
-            cursor.execute(sql, (run,))
+            cursor.execute(sql, (cliente.getRun(),))
             resultado = cursor.fetchone()
             cursor.close()
             

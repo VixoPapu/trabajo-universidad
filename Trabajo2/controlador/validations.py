@@ -73,7 +73,7 @@ def menu_principal():
         else:
             print("Opcion no valida, intente de nuevo")
 
-def menu_gestion_vehiculos(vehiculo_dto):
+def menu_gestion_vehiculos(vehiculo: Vehiculo):
     while True:
         print("\n" + "="*40)
         print("\n--- Gestión de Vehículos ---")
@@ -90,11 +90,23 @@ def menu_gestion_vehiculos(vehiculo_dto):
             print("\n--- Modificar Vehículo ---")
             patente = input("Patente de vehiculo a modificar: ")
             print("Modificando el auto con la patente", patente)
-            marca = input("Marca: ")
-            modelo = input("Modelo: ")
-            anio = int(input("Año: "))
-            precio = float(input("Precio: "))
-            disponible = input("Disponible (si/no): ").lower() == "si"
+            marca = input(f"Marca [{vehiculo.getMarca()}]: ") or vehiculo.getMarca()
+            modelo = input(f"Modelo [{vehiculo.getModelo()}]: ") or vehiculo.getModelo()
+            anio = input(f"Año [{vehiculo.getAnio()}]: ") or vehiculo.getAnio()
+            precio = input(f"Precio [{vehiculo.getPrecio()}]: ") or vehiculo.getPrecio()
+            estado_actual = "Si" if vehiculo.getDisponible() == 1 else "No"
+            disponible_input = input(f"Disponible (sí/no) [{estado_actual}]: ").strip().lower()
+
+            if disponible_input == "":
+                disponible = vehiculo.getDisponible()  # mantiene valor actual
+            elif disponible_input in ["si", "sí", "1", "true"]:
+                disponible = 1
+            elif disponible_input in ["no", "0", "false"]:
+                disponible = 0
+            else:
+                print("⚠️ Opción inválida. Manteniendo valor actual.")
+                disponible = vehiculo.getDisponible()
+
 
            #CAMBIO aca
             resultado = VehiculoDTO().modificar(patente, marca, modelo, anio, precio, disponible)
@@ -124,7 +136,7 @@ def menu_gestion_vehiculos(vehiculo_dto):
         else:
             print("Opción no válida")
 
-def menu_gestion_cliente(cliente_dto):
+def menu_gestion_cliente(cliente: Cliente):
     while True:
         print("\n" + "="*40)
         print("")
@@ -156,10 +168,11 @@ def menu_gestion_cliente(cliente_dto):
             print("\n--- Editando Cliente ---")
             run = input("Inserte el rut del cliente a editar: ")
             print("Editando el cliente con el rut", run)
-            nombre = input("Ingrese nuevo nombre: ")
-            apellido = input("Ingrese nuevo apellido: ")
-            telefono = input("Ingrese nuevo telefono: ")
-            direccion = input("Ingrese nueva direccion: ")
+            run = input(f"Run [{cliente.getRun()}]: ") or cliente.getRun()
+            nombre = input(f"Nombre [{cliente.getNombre()}]: ") or cliente.getNombre()
+            apellido = input(f"Apellido [{cliente.getApellido()}]: ") or cliente.getApellido()
+            telefono = input(f"Teléfono [{cliente.getTelefono()}]: ") or cliente.getTelefono()
+            direccion = input(f"Dirección [{cliente.getDireccion()}]: ") or cliente.getDireccion()
 
             #cliente = Cliente(run, nombre, apellido, telefono, direccion)
             resultado = ClienteDTO().editar(run, nombre, apellido, telefono, direccion)
@@ -171,7 +184,6 @@ def menu_gestion_cliente(cliente_dto):
             confirmar = input(f"¿Está seguro de eliminar el cliente {run}? (s/n): ")
             if confirmar.lower() == "s":
                 resultado = ClienteDTO().eliminar(run)
-                print("Cliente elimiado con exito...")
                 print(resultado)
 
         elif opcion == "4":
