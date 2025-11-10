@@ -1,37 +1,42 @@
 from models.empleado import Empleado
 from models.vehiculo import Vehiculo
-from models.cliente import Cliente 
+from models.cliente import Cliente
+from models.arriendo import Arriendo
 from getpass import getpass
 from database.db_connection import Connex
 from controlador.dto_empleado import EmpDTO
 from controlador.dto_cliente import ClienteDTO
 from controlador.dto_vehiculo import VehiculoDTO
+from controlador.dto_arriendo import ArriendoDTO
+from getpass import getpass
 
+def pedir_input(mensaje, minimo, campo=""):
+    while True:
+        valor = input(mensaje).strip()
+        if len(valor) >= minimo:
+            return valor
+        print(f"El {campo or 'campo'} debe tener al menos {minimo} caracteres")
 
 def registrar():
     db = Connex()
     db.connect()
 
     print("-- Registro de usuario --")
-    run = ""
-    while len(run) < 9:
-        run = input("Ingrese su rut: ")
-        if len(run) < 9:
-            print("El rut debe tener al menos 9 caracteres.")
-
-    nombre = input("Nombre: ")
-    apellido = input("Apellido: ")
+    run = pedir_input("Ingrese su Run: ", 9, "run")
+    nombre = pedir_input("Nombre: ", 3, "nombre")
+    apellido = pedir_input("Apellido: ", 3, "apellido")
     cargo = input("Cargo: ")
+
     password = getpass("Contraseña: ")
-    password2 = getpass("Confirmar Contraseña: ")
+    password2 = getpass("Confirmar contraseña: ")
 
     if password != password2:
         print("Las contraseñas no coinciden")
         db.close()
         return
-  
+
     mensaje = EmpDTO().registrarEmpleado(cargo, password, run, nombre, apellido)
-    print(mensaje)
+    print(f"{mensaje}")
 
     db.close()
 
@@ -52,8 +57,7 @@ def menu_principal():
         print("-- Menu Principal --")
         print("")
         print("1) Iniciar Sesion")
-        print("2) Registrar")
-        print("3) Cerrar Programa")
+        print("2) Cerrar Programa")
         print("\n" + "="*40)
         
         opc = input("Ingrese una opcion: ")
@@ -63,11 +67,8 @@ def menu_principal():
             empleado = login()
             if empleado:
                 mostrar_menu(empleado)
+
         elif opc == "2":
-            print("")
-            print("Registrando Usuario...")
-            registrar()
-        elif opc == "3":
             print("Saliendo...")
             break
         else:
@@ -104,7 +105,7 @@ def menu_gestion_vehiculos(vehiculo: Vehiculo):
             elif disponible_input in ["no", "0", "false"]:
                 disponible = 0
             else:
-                print("⚠️ Opción inválida. Manteniendo valor actual.")
+                print("Opcion invalida")
                 disponible = vehiculo.getDisponible()
 
 
@@ -152,10 +153,10 @@ def menu_gestion_cliente(cliente: Cliente):
 
         if opcion == "1":
             print("\n--- Insertando Cliente ---")
-            run = input("Ingrese el rut: ")
-            nombre = input("Ingrese el nombre: ")
-            apellido = input("Ingrese el apellido: ")
-            telefono = input("Ingrese el telefono: ")
+            run = pedir_input("Ingrese el Run: ", 9, "run")
+            nombre = pedir_input("Ingrese el Nombre: ", 3, "nombre")
+            apellido = pedir_input("Ingrese el Apellido: ", 3, "Apellido")
+            telefono = pedir_input("Ingrese el Telefono: ", 9, "Telefono")
             direccion = input("Ingrese el direccion: ")
 
 #Hice el cambio aqui llamando todo del dto_cliente
@@ -174,7 +175,6 @@ def menu_gestion_cliente(cliente: Cliente):
             telefono = input(f"Teléfono [{cliente.getTelefono()}]: ") or cliente.getTelefono()
             direccion = input(f"Dirección [{cliente.getDireccion()}]: ") or cliente.getDireccion()
 
-            #cliente = Cliente(run, nombre, apellido, telefono, direccion)
             resultado = ClienteDTO().editar(run, nombre, apellido, telefono, direccion)
             print(cliente)
 
@@ -206,6 +206,71 @@ def menu_gestion_cliente(cliente: Cliente):
         else:
             print("Opción inválida, intente nuevamente.")
 
+def menu_empleado(empleado: Empleado):
+    while True:
+        print("\n" + "="*40)
+        print("")
+        print("1) Registrar Empleado")
+        print("2) Listar Empleado")
+        print("3) Volver al menu")
+        print("\n" + "="*40)
+
+        opcion = input("Seleccione una opcion: ")
+        
+        if opcion == "1":
+            print("\n--- Registrando Empleado ---")
+            registrar()
+
+        elif opcion == "2":
+            print("\n--- Lista de Empleado ---")
+            empleados = EmpDTO().listarEmpleados()  
+            if not empleados:
+                print("No hay empleados registrados.")
+            else:
+                print("")
+                print("Lista de empleados: ")
+                print("\n" + "="*40)
+                for emp in empleados:
+                    print(emp)
+        elif opcion == "3":
+            break
+
+            
+def menu_Arriendo(arriendo: Arriendo):
+    while True:
+        print("\n" + "="*40)
+        print("")
+        print("1) Registrar Arriendo")
+        print("2) Listar Arriendo")
+        print("\n" + "="*40)
+
+        opcion = input("Seleccione una opcion: ")
+        
+        if opcion == "1":
+            print("\n--- Ingresando Arriendo ---")
+            num_arriendo = input("Ingresar numero de arriendo: ")
+            fecha_inicio = ("Ingresar fecha de inicio: ")
+            fecha_entrega = input("Ingresar fecha de entrega: ")
+            costo_total= input("Ingresar costo total: ")
+            cliente = input("Ingresar cliente: ")
+            empleado = input("Ingresar empleado: ")
+            vehiculo = input("Ingresa vehiculo: ")
+            #Terminar clase arriendo como corresponde
+            resultado = ArriendoDTO().IngresarArriendo(num_arriendo, fecha_inicio, fecha_entrega, costo_total, cliente, empleado, vehiculo) #<----despues
+            print(resultado)
+
+        elif opcion == "2":
+            print("\n--- Listando Arriendos ---")
+            arriendo = ArriendoDTO().listarArriendo()  
+            if not arriendo:
+                print("No hay arriendos registrados.")
+            else:
+                print("")
+                print("Lista de arriendo: ")
+                print("\n" + "="*40)
+                for arr in arriendo:
+                    print(arr)
+        
 def mostrar_menu(empleado: Empleado):
     while True:
         print("\n" + "="*40)
@@ -214,7 +279,8 @@ def mostrar_menu(empleado: Empleado):
         print("1) Gestión Clientes")
         print("2) Gestión Vehículos")
         print("3) Gestión Empleados")
-        print("4) Cerrar sesión")
+        print("4) Gestión Arriendos")
+        print("5) Cerrar sesión")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opción: ")
@@ -229,18 +295,13 @@ def mostrar_menu(empleado: Empleado):
 
         elif opcion == "3":
             print("Accediendo a Gestión Empleados...")
-            
-            empleados = EmpDTO().listarEmpleados()  
-            if not empleados:
-                print("No hay empleados registrados.")
-            else:
-                print("")
-                print("Lista de empleados: ")
-                print("\n" + "="*40)
-                for emp in empleados:
-                    print(emp)
+            menu_empleado(EmpDTO())
 
         elif opcion == "4":
+            print("Accediendo a Gestión Arriendos")
+            menu_Arriendo(ArriendoDTO())
+            
+        elif opcion == "5":
             print("Cerrando sesión...")
             break
         else:
