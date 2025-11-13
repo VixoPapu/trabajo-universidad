@@ -8,6 +8,14 @@ None al mostrar cliente, dto_cliente, cliente
 No se elimina cliente en la base de datos validations, dto_cliente
 
 
-
-
 https://prod.liveshare.vsengsaas.visualstudio.com/join?6954300071630047BC6969C7BFE2071B82F3
+
+
+
+13 nov en adelante:
+
+Organizar rangos de los empleados
+Terminar arriendos
+Base de datos actualizada
+
+Arreglar validation del menu de arriendo

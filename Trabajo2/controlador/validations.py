@@ -1,13 +1,17 @@
+from database.db_connection import Connex
+from datetime import date
+
 from models.empleado import Empleado
 from models.vehiculo import Vehiculo
 from models.cliente import Cliente
 from models.arriendo import Arriendo
-from getpass import getpass
-from database.db_connection import Connex
+from models.conversion import Conversion
+
 from controlador.dto_empleado import EmpDTO
 from controlador.dto_cliente import ClienteDTO
 from controlador.dto_vehiculo import VehiculoDTO
 from controlador.dto_arriendo import ArriendoDTO
+
 from getpass import getpass
 
 def pedir_input(mensaje, minimo, campo=""):
@@ -212,7 +216,7 @@ def menu_empleado(empleado: Empleado):
         print("")
         print("1) Registrar Empleado")
         print("2) Listar Empleado")
-        print("3) Volver al menu")
+        print("3) Volver atras")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opcion: ")
@@ -242,26 +246,59 @@ def menu_Arriendo(arriendo: Arriendo):
         print("")
         print("1) Registrar Arriendo")
         print("2) Listar Arriendo")
+        print("3) Volver atras")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opcion: ")
         
+        
         if opcion == "1":
-            print("\n--- Ingresando Arriendo ---")
-            num_arriendo = input("Ingresar numero de arriendo: ")
-            fecha_inicio = ("Ingresar fecha de inicio: ")
-            fecha_entrega = input("Ingresar fecha de entrega: ")
-            costo_total= input("Ingresar costo total: ")
-            cliente = input("Ingresar cliente: ")
-            empleado = input("Ingresar empleado: ")
-            vehiculo = input("Ingresa vehiculo: ")
-            #Terminar clase arriendo como corresponde
-            resultado = ArriendoDTO().IngresarArriendo(num_arriendo, fecha_inicio, fecha_entrega, costo_total, cliente, empleado, vehiculo) #<----despues
-            print(resultado)
+            print("\n--- Ingresando nuevo Arriendo ---")
+            try:
+                # --- Número de arriendo ---
+                num_arriendo = int(input("Número de arriendo: "))
+
+                # --- Fechas ---
+                anio_i = int(input("Año inicio: "))
+                mes_i = int(input("Mes inicio: "))
+                dia_i = int(input("Día inicio: "))
+                fecha_inicio = date(anio_i, mes_i, dia_i)
+
+                anio_e = int(input("Año entrega: "))
+                mes_e = int(input("Mes entrega: "))
+                dia_e = int(input("Día entrega: "))
+                fecha_entrega = date(anio_e, mes_e, dia_e)
+
+                # --- Identificadores ---
+                run_cliente = input("RUN del cliente: ")
+                codigo_empleado = int(input("Código del empleado: "))
+                patente_vehiculo = input("Patente del vehículo: ")
+
+                # Crear objetos solo con identificadores
+                cliente = Cliente(run_cliente)
+                empleado = Empleado(codigo=codigo_empleado)
+                vehiculo = Vehiculo(patente_vehiculo)
+
+                # --- Conversion ---
+
+                # Arreglar la conversion
+                valor_uf = float(input("Valor actual de la UF (en CLP): "))
+                conversion = Conversion(date.today(), valor_uf)
+
+                # --- Guardar arriendo ---
+                resultado = ArriendoDTO().ingresarArriendo(
+                    num_arriendo, fecha_inicio, fecha_entrega,
+                    conversion, cliente, empleado, vehiculo
+                )
+
+                print("\n" + resultado)
+
+            except Exception as e:
+                print(f"\n❌ Error al registrar arriendo: {e}")
 
         elif opcion == "2":
             print("\n--- Listando Arriendos ---")
-            arriendo = ArriendoDTO().listarArriendo()  
+            arriendo = ArriendoDTO().listarArriendos()  
             if not arriendo:
                 print("No hay arriendos registrados.")
             else:
@@ -270,7 +307,10 @@ def menu_Arriendo(arriendo: Arriendo):
                 print("\n" + "="*40)
                 for arr in arriendo:
                     print(arr)
-        
+                    
+        elif opcion == "3":
+            break
+
 def mostrar_menu(empleado: Empleado):
     while True:
         print("\n" + "="*40)
