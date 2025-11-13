@@ -10,4 +10,4 @@ No se elimina cliente en la base de datos validations, dto_cliente
 
 
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?D4E385616476C62A27727E195C10CE5ECBF7
+https://prod.liveshare.vsengsaas.visualstudio.com/join?6954300071630047BC6969C7BFE2071B82F3
