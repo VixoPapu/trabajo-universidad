@@ -41,7 +41,6 @@ class ArriendoDAO:
 
             arriendos = []
             for resultado in resultados:
-                # Crear objetos auxiliares según tus clases
                 cliente = Cliente(resultado[4])          # run_cliente
                 empleado = Empleado(codigo=resultado[5]) # codigo_empleado
                 vehiculo = Vehiculo(resultado[6])        # patente_vehiculo

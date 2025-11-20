@@ -19,11 +19,9 @@ class ArriendoDTO:
             db.close()
         return resultado
 
-    def listarArriendos(self):
+    def listarArriendo(self):
         db = Connex()
         db.connect()
-        try:
-            resultado = ArriendoDAO.listarArriendos(db.connection)
-        finally:
-            db.close()
+        resultado = ArriendoDAO.listarArriendos(db.connection) 
+        db.close()
         return resultado

@@ -29,7 +29,7 @@ def registrar():
     run = pedir_input("Ingrese su Run: ", 9, "run")
     nombre = pedir_input("Nombre: ", 3, "nombre")
     apellido = pedir_input("Apellido: ", 3, "apellido")
-    cargo = input("Cargo: ")
+    cargo = input("Cargo: ").lower()
 
     password = getpass("Contraseña: ")
     password2 = getpass("Confirmar contraseña: ")
@@ -255,10 +255,8 @@ def menu_Arriendo(arriendo: Arriendo):
         if opcion == "1":
             print("\n--- Ingresando nuevo Arriendo ---")
             try:
-                # --- Número de arriendo ---
                 num_arriendo = int(input("Número de arriendo: "))
 
-                # --- Fechas ---
                 anio_i = int(input("Año inicio: "))
                 mes_i = int(input("Mes inicio: "))
                 dia_i = int(input("Día inicio: "))
@@ -269,23 +267,17 @@ def menu_Arriendo(arriendo: Arriendo):
                 dia_e = int(input("Día entrega: "))
                 fecha_entrega = date(anio_e, mes_e, dia_e)
 
-                # --- Identificadores ---
                 run_cliente = input("RUN del cliente: ")
                 codigo_empleado = int(input("Código del empleado: "))
                 patente_vehiculo = input("Patente del vehículo: ")
 
-                # Crear objetos solo con identificadores
                 cliente = Cliente(run_cliente)
                 empleado = Empleado(codigo=codigo_empleado)
                 vehiculo = Vehiculo(patente_vehiculo)
 
-                # --- Conversion ---
-
-                # Arreglar la conversion
-                valor_uf = float(input("Valor actual de la UF (en CLP): "))
+                valor_uf = float(input("Ingresar valor UF diario: "))
                 conversion = Conversion(date.today(), valor_uf)
 
-                # --- Guardar arriendo ---
                 resultado = ArriendoDTO().ingresarArriendo(
                     num_arriendo, fecha_inicio, fecha_entrega,
                     conversion, cliente, empleado, vehiculo
@@ -298,7 +290,7 @@ def menu_Arriendo(arriendo: Arriendo):
 
         elif opcion == "2":
             print("\n--- Listando Arriendos ---")
-            arriendo = ArriendoDTO().listarArriendos()  
+            arriendo = ArriendoDTO().listarArriendo()  
             if not arriendo:
                 print("No hay arriendos registrados.")
             else:
@@ -307,6 +299,7 @@ def menu_Arriendo(arriendo: Arriendo):
                 print("\n" + "="*40)
                 for arr in arriendo:
                     print(arr)
+                    print("")
                     
         elif opcion == "3":
             break
@@ -314,7 +307,7 @@ def menu_Arriendo(arriendo: Arriendo):
 def mostrar_menu(empleado: Empleado):
     while True:
         print("\n" + "="*40)
-        print(f"Bienvenido {empleado.nombre_completo()} Cargo: {empleado.getCargo().upper()}")
+        print(f"Bienvenido {empleado.nombre_completo()} Cargo: {empleado.getCargo().lower()}")
         print("")
         print("1) Gestión Clientes")
         print("2) Gestión Vehículos")
@@ -346,4 +339,3 @@ def mostrar_menu(empleado: Empleado):
             break
         else:
             print("Opción inválida, intente nuevamente.")
-    
