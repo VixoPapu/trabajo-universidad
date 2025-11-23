@@ -9,7 +9,7 @@ from models.vehiculo import Vehiculo
 class ArriendoDTO:
 
     def ingresarArriendo(self, num_arriendo: int, fecha_inicio, fecha_entrega, costo_total: Conversion,
-                          cliente: Cliente, empleado: Empleado, vehiculo: Vehiculo):
+                         cliente: Cliente, empleado: Empleado, vehiculo: Vehiculo):
         db = Connex()
         db.connect()
         try:

@@ -31,32 +31,69 @@ class ArriendoDAO:
             return f"❌ Error al insertar Arriendo: {str(e)}"
 
     @staticmethod
+
     def listarArriendos(conn):
         try:
             cursor = conn.cursor()
-            sql = "SELECT * FROM arriendos"
+            sql = """
+            SELECT 
+                a.num_arriendo,
+                a.fecha_inicio,
+                a.fecha_entrega,
+                a.costo_total_uf,
+
+                c.run, c.nombre, c.apellido,
+                e.codigo, e.nombre, e.apellido,
+                v.patente, v.marca, v.modelo, v.precio
+            FROM arriendos a
+            JOIN clientes c ON a.run_cliente = c.run
+            JOIN empleados e ON a.codigo_empleado = e.codigo
+            JOIN vehiculos v ON a.patente_vehiculo = v.patente;
+            """
             cursor.execute(sql)
             resultados = cursor.fetchall()
             cursor.close()
 
             arriendos = []
-            for resultado in resultados:
-                cliente = Cliente(resultado[4])          # run_cliente
-                empleado = Empleado(codigo=resultado[5]) # codigo_empleado
-                vehiculo = Vehiculo(resultado[6])        # patente_vehiculo
-                conversion = Conversion(fecha=resultado[1], costo=resultado[3])  # usar fecha_inicio como referencia
+            for r in resultados:
+
+                cliente = Cliente(
+                    run=r[4],
+                    nombre=r[5],
+                    apellido=r[6]
+                )
+
+                empleado = Empleado(
+                    codigo=r[7],
+                    nombre=r[8],
+                    apellido=r[9]
+                )
+
+                vehiculo = Vehiculo(
+                    patente=r[10],
+                    marca=r[11],
+                    modelo=r[12],
+                    precio=r[13]
+                )
+
+                conversion = Conversion(
+                    fecha=r[1],
+                    costo=r[3]
+                )
 
                 arriendo = Arriendo(
-                    num_arriendo=resultado[0],
-                    fecha_inicio=resultado[1],
-                    fecha_entrega=resultado[2],
+                    num_arriendo=r[0],
+                    fecha_inicio=r[1],
+                    fecha_entrega=r[2],
                     costo_total=conversion,
                     cliente=cliente,
                     empleado=empleado,
                     vehiculo=vehiculo
                 )
+
                 arriendos.append(arriendo)
+
             return arriendos
         except Exception as e:
-            print(f"❌ Error al listar arriendos: {str(e)}")
+            print("❌ Error:", e)
             return []

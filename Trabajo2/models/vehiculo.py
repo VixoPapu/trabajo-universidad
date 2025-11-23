@@ -35,4 +35,4 @@ class Vehiculo:
         self.__disponible = disponible
 
     def __str__(self):
-        return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Año: {self.__anio} | Precio: UF${self.__precio}"
+        return f"Patente: {self.__patente} | Marca: {self.__marca} | Modelo: {self.__modelo} | Año: {self.__anio} | Precio diario: UF${self.__precio}"

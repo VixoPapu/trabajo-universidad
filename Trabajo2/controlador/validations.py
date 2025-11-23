@@ -86,7 +86,7 @@ def menu_gestion_vehiculos(vehiculo: Vehiculo):
         print("1) Modificar vehículo")
         print("2) Eliminar vehículo")
         print("3) Listar vehículos disponibles")
-        print("4) Volver al menú anterior")
+        print("4) Volver atras")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opción: ")
@@ -150,18 +150,18 @@ def menu_gestion_cliente(cliente: Cliente):
         print("3) Eliminar Cliente")
         print("4) Mostrar Cliente")
         print("5) Listar Clientes")
-        print("6) Volver al menú anterior")
+        print("6) Volver atras")
         print("\n" + "="*40)
 
         opcion = input("Seleccione una opcion: ")
 
         if opcion == "1":
             print("\n--- Insertando Cliente ---")
-            run = pedir_input("Ingrese el Run: ", 9, "run")
-            nombre = pedir_input("Ingrese el Nombre: ", 3, "nombre")
+            run = pedir_input("Ingrese el Run: ", 9, "Run")
+            nombre = pedir_input("Ingrese el Nombre: ", 3, "Nombre")
             apellido = pedir_input("Ingrese el Apellido: ", 3, "Apellido")
             telefono = pedir_input("Ingrese el Telefono: ", 9, "Telefono")
-            direccion = input("Ingrese el direccion: ")
+            direccion = pedir_input("Ingrese el direccion: ", 4, "Direccion")
 
 #Hice el cambio aqui llamando todo del dto_cliente
 
@@ -275,7 +275,7 @@ def menu_Arriendo(arriendo: Arriendo):
                 empleado = Empleado(codigo=codigo_empleado)
                 vehiculo = Vehiculo(patente_vehiculo)
 
-                valor_uf = float(input("Ingresar valor UF diario: "))
+                valor_uf = float(input("Ingresar valor UF: "))
                 conversion = Conversion(date.today(), valor_uf)
 
                 resultado = ArriendoDTO().ingresarArriendo(

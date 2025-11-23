@@ -65,8 +65,23 @@ class Arriendo:
         self.__arriendos.append(arriendo)
 
     def __str__(self):
-        return (f"Arriendo Nº {self.__num_arriendo} | Inicio: {self.__fecha_inicio} | Entrega: {self.__fecha_entrega}\n"
-                f"Cliente: {self.__cliente.getNombre()} {self.__cliente.getApellido()} | "
-                f"Empleado: {self.__empleado.getNombre()} {self.__empleado.getApellido()}\n"
-                f"Vehículo: {self.__vehiculo.getMarca()} {self.__vehiculo.getModelo()} ({self.__vehiculo.getPatente()})\n"
-                f"Costo total: UF {self.__vehiculo.getPrecio()} | Valor UF: {self.__costo_total.getCosto()} ({self.__costo_total.getFecha()})")
+        dias = (self.__fecha_entrega - self.__fecha_inicio).days
+        
+        precio_diario_uf = self.__vehiculo.getPrecio()
+        valor_uf_clp = self.__costo_total.getCosto()
+
+        costo_total_uf = dias * precio_diario_uf
+        costo_total_clp = costo_total_uf * valor_uf_clp
+
+        return(
+            f"Arriendo Nº {self.__num_arriendo}\n"
+            f"Inicio: {self.__fecha_inicio} | Entrega: {self.__fecha_entrega} | Días: {dias}\n"
+            f"Cliente: {self.__cliente.getNombre()} {self.__cliente.getApellido()}\n"
+            f"Empleado: {self.__empleado.getNombre()} {self.__empleado.getApellido()}\n"
+            f"Vehículo: {self.__vehiculo.getMarca()} {self.__vehiculo.getModelo()} "
+            f"{self.__vehiculo.getPatente()}\n"
+            f"Precio arriendo UF al dia: {precio_diario_uf}\n"
+            f"Costo total: {costo_total_uf:.2f} UF | "
+            f"CLP ${costo_total_clp:,.0f}\n"
+            f"Valor UF: CLP {valor_uf_clp} ({self.__costo_total.getFecha()})"
+        )

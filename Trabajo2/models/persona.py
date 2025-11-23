@@ -1,20 +1,20 @@
 class Persona:
     def __init__(self, run, nombre, apellido):
-        self.__run = run
-        self.__nombre = nombre
-        self.__apellido = apellido
+        self._run = run
+        self._nombre = nombre
+        self._apellido = apellido
     
     def getRun(self):
-        return self.__run
+        return self._run
     def getNombre(self):
-        return self.__nombre
+        return self._nombre
     def getApellido(self):
-        return self.__apellido
+        return self._apellido
 
     def set_Nombre(self, nombre):
-        self.__nombre = nombre
+        self._nombre = nombre
     def set_Apellido(self, apellido):
-        self.__apellido = apellido
+        self._apellido = apellido
 
     def __str__(self):
-        return f"{self.__nombre} {self.__apellido} | Run: {self.__run})"
+        return f"{self._nombre} {self._apellido} | Run: {self._run})"
